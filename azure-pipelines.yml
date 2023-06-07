@@ -1,0 +1,49 @@
+trigger:
+- MyFeature
+
+pool:
+  name: SelfHostedAgentPool
+  demands:
+   - agent.name -equals LAPTOP-FHLQ0U7M
+
+
+variables:
+  buildConfiguration: 'Release'
+
+
+
+steps:
+- 
+  task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.0'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+
+
+- script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
+  
+- task: gulp@1
+  displayName: 'Run gulp tasks'
+
+
+- script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+  workingDirectory: Tailspin.SpaceGame.Web/wwwroot
+
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build the project - Release'
+  inputs:
+    command: 'build'
+    arguments: '--no-restore --configuration Release'
+    projects: '**/*.csproj'
