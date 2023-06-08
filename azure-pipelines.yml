@@ -16,7 +16,7 @@ steps:
       version: "6.x"
 
 
-- script: |
+  - script: |
         npm install
   
   - script: "./node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot"
