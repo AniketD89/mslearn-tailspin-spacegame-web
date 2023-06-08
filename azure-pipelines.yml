@@ -15,10 +15,10 @@ steps:
       packageType: "sdk"
       version: "6.x"
 
-  - task: Npm@1
-    inputs:
-      command: "install"
 
+- script: |
+        npm install
+  
   - script: "./node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot"
 
   - task: gulp@1
