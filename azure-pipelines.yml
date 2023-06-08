@@ -14,11 +14,13 @@ steps:
     inputs:
       packageType: "sdk"
       version: "6.x"
-
-
-  - script: |
-        npm install
   
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.16.x'
+    displayName: 'Install Node.js'
+
+
   - script: "./node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot"
 
   - task: gulp@1
